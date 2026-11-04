@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第十三号禁书｜注意实验室</title>
+<style>
+:root{
+  --bg:#10111f;--panel:#191b2d;--panel2:#202239;--ink:#eee8d6;--muted:#aaa5b8;
+  --gold:#c7a45c;--gold2:#e0c783;--violet:#9a82cf;--teal:#69bdb8;--red:#c97979;
+  --line:rgba(210,187,133,.28);--shadow:0 18px 55px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% -15%,#30304a 0%,#17192a 42%,#0e101b 100%);color:var(--ink);font-family:"Noto Serif SC","Songti SC","STSong",serif;min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.shell{width:min(1000px,94vw);margin:28px auto 50px}
+.topline{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font:12px/1.5 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.brand{display:flex;gap:10px;align-items:center}
+.sig{width:27px;height:27px;border:1px solid var(--gold);transform:rotate(45deg);display:grid;place-items:center;color:var(--gold)}
+.sig span{transform:rotate(-45deg);font-size:13px}
+.card{margin-top:18px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(32,34,57,.96),rgba(19,21,35,.98));box-shadow:var(--shadow);overflow:hidden}
+.inner{padding:clamp(22px,4vw,42px)}
+.eyebrow{color:var(--gold2);font:12px/1.6 system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(34px,6vw,62px);font-weight:600;letter-spacing:.08em;margin:18px 0 10px}
+h2{font-size:clamp(24px,4vw,34px);font-weight:600;margin:0 0 14px}
+h3{font-size:18px;font-weight:600}
+p{line-height:1.85;color:#d1ccda}
+.muted{color:var(--muted)}
+.gold{color:var(--gold2)}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:24px 0}
+.btn{border:1px solid var(--gold);background:linear-gradient(135deg,#b28e4e,#d2b46e);color:#171624;padding:12px 22px;border-radius:10px;font-weight:700;letter-spacing:.04em;transition:.18s}
+.btn:hover{filter:brightness(1.09);transform:translateY(-1px)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn.secondary{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost{background:rgba(255,255,255,.04);color:var(--ink);border-color:rgba(255,255,255,.15)}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.panel{border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.035);padding:17px}
+label{display:block;color:var(--muted);font:13px system-ui,sans-serif;margin:12px 0 7px}
+input[type=text]{width:100%;max-width:340px;padding:12px 13px;background:#101222;color:var(--ink);border:1px solid var(--line);border-radius:9px;outline:none}
+input:focus{border-color:var(--gold)}
+.checkline{display:flex;gap:11px;align-items:flex-start;color:#d5d0dc;line-height:1.7;font-size:14px}
+.checkline input{margin-top:5px;accent-color:var(--gold);width:17px;height:17px;flex:none}
+.small{font:12px/1.7 system-ui,sans-serif;color:var(--muted)}
+.progress-wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;font:12px system-ui,sans-serif;color:var(--muted);margin-bottom:12px}
+.progress{height:6px;background:#34354a;border-radius:10px;overflow:hidden;flex:1}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--teal));width:0;transition:width .2s}
+.scene{min-height:290px;display:grid;place-items:center;border:1px solid rgba(204,177,117,.2);border-radius:15px;background:radial-gradient(ellipse at 50% 45%,rgba(92,78,130,.17),rgba(10,12,23,.28) 70%);padding:20px;position:relative}
+.trial-prompt{text-align:center;color:var(--gold2);font-size:17px;letter-spacing:.05em;margin-bottom:15px}
+.arrows{display:grid;grid-template-columns:repeat(4,minmax(42px,70px));gap:clamp(7px,2vw,18px);justify-content:center}
+.arrow-cell{width:clamp(43px,7vw,70px);height:clamp(43px,7vw,70px);display:grid;place-items:center;border-radius:9px}
+.arrow-cell svg{width:75%;height:75%;filter:drop-shadow(0 0 5px currentColor)}
+.arrow-cell.gold-arrow{color:#e0bd6b}.arrow-cell.violet-arrow{color:#9c86d0}.arrow-cell.cluster-right{transform:translateX(7px)}.arrow-cell.cluster-bottom{transform:translateY(7px)}
+.response-row{display:flex;justify-content:center;gap:14px;margin-top:20px;flex-wrap:wrap}
+.keybtn{min-width:160px;padding:13px 18px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink)}
+.keybtn strong{color:var(--gold2);font-size:12px;margin-right:8px}
+.keybtn:hover{border-color:var(--gold);background:rgba(199,164,92,.08)}
+.feedback{margin-top:15px;text-align:center;min-height:28px;color:var(--teal)}
+.practice-feedback{margin:16px auto 0;max-width:620px;padding:16px;border:1px solid var(--gold);border-radius:12px;background:rgba(199,164,92,.10);text-align:center;line-height:1.8}
+.practice-feedback strong{display:block;color:var(--gold2);font-size:17px;margin-bottom:5px}
+.practice-feedback .answer{color:var(--ink);font-size:14px}
+.practice-feedback button{margin-top:12px}
+.stimulus-svg{width:min(100%,580px);height:auto;display:block;margin:auto}
+.sliderrow{display:flex;align-items:center;gap:14px;margin:20px auto 8px;max-width:580px}
+.sliderrow input{flex:1;accent-color:var(--gold);cursor:pointer}
+.slider-num{min-width:78px;text-align:center;font-size:24px;color:var(--gold2);font-variant-numeric:tabular-nums}
+.scale{display:flex;justify-content:space-between;max-width:580px;margin:auto;color:var(--muted);font:12px system-ui,sans-serif}
+.choice-note{text-align:center;color:var(--muted);font:13px system-ui,sans-serif;margin-top:12px}
+.resultgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.metric{padding:15px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.035)}
+.metric b{display:block;font:26px system-ui,sans-serif;color:var(--gold2);margin-top:5px}
+.table{width:100%;border-collapse:collapse;font:13px/1.6 system-ui,sans-serif}
+.table th,.table td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left}
+.table th{color:var(--gold2);font-weight:600}
+.note{padding:13px 15px;border-left:3px solid var(--gold);background:rgba(199,164,92,.07);color:#d6d0dc;line-height:1.7;font-size:13px}
+.hidden{display:none!important}
+footer{text-align:center;color:#77758b;font:11px system-ui,sans-serif;margin:18px 0}
+@media(max-width:650px){.grid2,.resultgrid{grid-template-columns:1fr}.scene{min-height:240px;padding:12px}.arrows{gap:5px}.keybtn{min-width:135px;flex:1}.inner{padding:22px 17px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topline">
+    <div class="brand"><div class="sig"><span>✦</span></div><span>ATTENTION LAB · ENGINEERING PSYCHOLOGY</span></div>
+    <span>FIELD STUDY 013</span>
+  </div>
+  <main class="card"><div class="inner" id="app"></div></main>
+  <footer>第十三号禁书 · 课程实验原型 · 请勿输入真实姓名或其他身份信息</footer>
+</div>
+<script>
+"use strict";
+const app=document.getElementById("app");
+const API="https://attention-lab-production.up.railway.app/api/hw2/submit";
+// 仅由项目负责人填写，切勿要求被试输入；未配置时使用本地数据导出。
+const PROJECT = "EYUFFT";
+const state={
+  participant:"",project:"",consent:false,order:[],phase:"intro",expIndex:0,trialIndex:0,
+  practiceIndex:0,practiceTrials:[],trialPlan:[],formalTrials:[],current:null,results:{},startedAt:null,
+  expStartedAt:null,allLocal:[],lastResponse:null
+};
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function renderIntro(){
+ app.innerHTML=`
+ <div class="eyebrow">The Thirteenth Forbidden Book</div>
+ <h1>第十三号禁书</h1>
+ 
+ <div class="rule"></div>
+ <div class="grid2">
+  <div class="panel"><div class="eyebrow">TRIAL I · W6</div><h3>失落的符文</h3><p>在一组魔法箭矢中寻找指定目标。你将体验单一特征搜索与联合特征搜索。</p><div class="small">正式试次：40次 · 练习：6次</div></div>
+  <div class="panel"><div class="eyebrow">TRIAL II · W7</div><h3>魔药配方的秘密</h3><p>观察不同图形编码，估计材料B相当于材料A的百分比。</p><div class="small">正式试次：40次 · 练习：6次</div></div>
+ </div>
+ <div class="rule"></div>
+ <h3>参与说明与知情同意</h3>
+ <p class="small">本课程实验旨在了解视觉搜索与图形比例判断。实验约需6–10分钟，包含两项视觉判断任务。程序记录匿名编号、实验条件、作答、反应时间及正确率/估计误差。参与完全自愿，你可以随时停止；停止后尚未提交的数据不会上传。正式提交的数据以匿名编号保存，如需询问或申请撤回，请联系招募时提供实验说明的组织者。请勿填写真实姓名、学号、联系方式或其他身份信息。</p>
+ <label for="pid">匿名参与者编号（请使用随机代号，不要填写真实姓名）</label>
+ <input id="pid" type="text" maxlength="24" placeholder="例如 P01 或自选匿名代号">
+ <div style="margin:18px 0">
+  <label class="checkline"><input id="consent" type="checkbox"><span>我已阅读上述说明，理解实验内容，并自愿同意参与。</span></label>
+ </div>
+ <div class="row"><button class="btn" id="begin" disabled>同意并进入实验</button><span class="small">必须填写匿名编号并勾选同意后才能开始。</span></div>`;
+ const pid=document.getElementById("pid"),con=document.getElementById("consent"),btn=document.getElementById("begin");
+ const update=()=>btn.disabled=!(pid.value.trim()&&con.checked);
+ pid.addEventListener("input",update);con.addEventListener("change",update);
+ btn.addEventListener("click",()=>{state.participant=pid.value.trim();state.project=PROJECT;state.consent=true;state.order=["arrows","potion"];state.phase="introExp";state.expIndex=0;renderExperimentIntro()});
+}
+function expName(){return state.order[state.expIndex]}
+function expLabel(){return expName()==="arrows"?"失落的符文":"魔药配方的秘密"}
+function makeArrowTrials(practice=false){
+ const specs=[];
+ const conds=["feature_random","feature_grouped","conjunction_random","conjunction_grouped"];
+ for(const c of conds)for(let i=0;i<(practice?1:10);i++)specs.push({condition:c,present:i%2===0});
+ return shuffle(specs).map((s,i)=>({...s,id:i+1,setSize:16}));
+}
+function makePotionTrials(practice=false){
+ const conds=["length_plain","length_guides","angle_plain","angle_guides"];
+ const ratios=[32,38,44,50,56,62,68,74,80,47];
+ const specs=[];
+ for(const c of conds)for(let i=0;i<(practice?1:10);i++)specs.push({condition:c,ratio:rand(ratios)});
+ return shuffle(specs).map((s,i)=>({...s,id:i+1}));
+}
+function renderExperimentIntro(){
+ const arrows=expName()==="arrows";
+ app.innerHTML=`
+ <div class="eyebrow">CHAPTER ${state.expIndex+1} OF 2</div><h2>${arrows?"第一关｜失落的符文":"第二关｜魔药配方的秘密"}</h2>
+ <p>${arrows?"你需要在一组魔法箭矢中判断是否存在目标。目标是「金色、朝上的箭矢」。请尽可能又快又准确地作答。":"你需要观察两种图形编码，估计材料B相当于材料A的百分比。请根据图形作出自己的估计，不需要进行复杂计算。"}</p>
+ <div class="panel"><h3>操作说明</h3>${arrows?`
+ <p>单一特征搜索：目标与干扰项主要通过颜色区分。联合特征搜索：需要同时结合颜色和方向识别目标。</p>
+ <p>请使用键盘 <b class="gold">F</b> 表示「有目标」，<b class="gold">J</b> 表示「无目标」；也可以点击屏幕按钮。</p>`:`
+ <p>先观察材料A和材料B的图形，再拖动滑块估计B/A的百分比。0%表示B为0，100%表示B与A相等。</p>
+ <p>请使用滑块提交估计。正式试次不会显示正确答案。</p>`}
+ <p class="small">先完成6次练习。练习会显示正确答案和反馈；正式试次不显示即时对错反馈。</p></div>
+ <div class="row" style="margin-top:22px"><button class="btn" id="practiceStart">开始练习</button></div>`;
+ document.getElementById("practiceStart").onclick=()=>{
+  state.practiceTrials=arrows?makeArrowTrials(true):makePotionTrials(true);
+  // Six practice trials: balance two task types and vary examples.
+  if(arrows){state.practiceTrials=shuffle([
+   {condition:"feature_random",present:true},{condition:"feature_random",present:false},
+   {condition:"feature_grouped",present:true},{condition:"conjunction_random",present:true},
+   {condition:"conjunction_grouped",present:false},{condition:"conjunction_random",present:false}
+  ]).map((x,i)=>({...x,id:i+1,setSize:16}))}
+  else{state.practiceTrials=shuffle([
+   {condition:"length_plain",ratio:38},{condition:"length_guides",ratio:62},
+   {condition:"angle_plain",ratio:44},{condition:"angle_guides",ratio:74},
+   {condition:"length_plain",ratio:80},{condition:"angle_guides",ratio:50}
+  ]).map((x,i)=>({...x,id:i+1}))}
+  state.practiceIndex=0;state.phase="practice";renderTrial();
+ };
+}
+function arrowSVG(color,up){
+ const c=color==="gold"?"#e0bd6b":"#9c86d0";
+ return `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="${up?"M24 5L8 23H17V42H31V23H40Z":"M24 43L8 25H17V6H31V25H40Z"}" fill="${c}" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/><path d="${up?"M24 12V32":"M24 36V16"}" stroke="#28243a" stroke-width="2" opacity=".45"/></svg>`;
+}
+function buildArrowStim(trial){
+ const n=16,items=[];
+ trial.targetIndex = -1;
+ const conj=trial.condition.startsWith("conjunction");
+ const grouped=trial.condition.endsWith("grouped");
+ for(let i=0;i<n;i++){
+  let color="violet",up=true;
+  if(conj){color=i%2===0?"gold":"violet";up=color==="violet"}
+  items.push({color,up});
+ }
+ if(trial.present){
+  const idx=Math.floor(Math.random()*n);trial.targetIndex=idx;items[idx]={color:"gold",up:true};
+  if(conj){let g=items.filter(x=>x.color==="gold"&&x.up===false).length; if(g===0)items[(idx+1)%n]={color:"gold",up:false}}
+ }
+ // The grouping manipulation is spatial: grouped trials use four compact 2x2 clusters;
+ // random trials use a uniform grid. Feature values remain unchanged.
+ const displayed = shuffle(items);
+ trial.targetIndex = trial.present ? displayed.findIndex(x=>x.color==="gold" && x.up===true) : -1;
+ return displayed;
+}
+function potionSVG(t){
+ const isLength=t.condition.startsWith("length"),guides=t.condition.endsWith("guides"),r=t.ratio/100;
+ if(isLength){
+  const a=390,b=390*r;
+  let ticks="";
+  if(guides){for(let i=0;i<=4;i++){let x=70+a*i/4;ticks+=`<line x1="${x}" y1="53" x2="${x}" y2="178" stroke="#d6c18b" stroke-dasharray="4 6" opacity=".65"/>`}}
+  return `<svg class="stimulus-svg" viewBox="0 0 540 220" role="img" aria-label="长度编码比例图">
+  <text x="48" y="72" fill="#eee8d6" font-size="19">A</text><rect x="70" y="48" width="${a}" height="35" rx="7" fill="#9478c9"/>
+  <text x="48" y="153" fill="#eee8d6" font-size="19">B</text><rect x="70" y="129" width="${b}" height="35" rx="7" fill="#69bdb8"/>
+  ${ticks}<path d="M70 185H460" stroke="#827d91" opacity=".35"/></svg>`;
+ }
+ const a=250*Math.PI/180,b=a*r,cx1=160,cx2=380,cy=108,rad=64;
+ const sector=(cx,angle,color)=>{const x=cx+rad*Math.sin(angle),y=cy-rad*Math.cos(angle);return `M ${cx} ${cy-rad} A ${rad} ${rad} 0 ${angle>Math.PI?1:0} 1 ${x} ${y} L ${cx} ${cy} Z`};
+ let angleGuides="";
+ if(t.condition.endsWith("guides")){
+  for(let i=0;i<=4;i++){const ang=a*i/4;for(const cx of [cx1,cx2]){const x=cx+rad*Math.sin(ang),y=cy-rad*Math.cos(ang);angleGuides+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#d6c18b" stroke-dasharray="3 5" opacity=".6"/>`}}
+ }
+ return `<svg class="stimulus-svg" viewBox="0 0 540 220" role="img" aria-label="角度编码比例图">
+ <text x="${cx1}" y="23" fill="#eee8d6" font-size="18" text-anchor="middle">A</text><text x="${cx2}" y="23" fill="#eee8d6" font-size="18" text-anchor="middle">B</text>
+ <circle cx="${cx1}" cy="${cy}" r="${rad}" fill="none" stroke="#9478c9" stroke-width="3"/><path d="${sector(cx1,a,"#9478c9")}" fill="#9478c9"/>
+ <circle cx="${cx2}" cy="${cy}" r="${rad}" fill="none" stroke="#69bdb8" stroke-width="3"/><path d="${sector(cx2,b,"#69bdb8")}" fill="#69bdb8"/>
+ ${angleGuides}<circle cx="${cx1}" cy="${cy}" r="3" fill="#eee8d6"/><circle cx="${cx2}" cy="${cy}" r="3" fill="#eee8d6"/></svg>`;
+}
+function renderTrial(){
+ const practice=state.phase==="practice",arrows=expName()==="arrows";
+ const arr=practice?state.practiceTrials:state.trialPlan;
+ const idx=practice?state.practiceIndex:state.trialIndex;
+ const t=arr[idx];
+ if(!t){finishExperiment();return}
+ state.current=t;state.expStartedAt=performance.now();
+ const total=practice?6:40;
+ let content="";
+ if(arrows){
+  const items=buildArrowStim(t);
+  content=`<div class="trial-prompt">寻找目标：<span class="gold">金色、朝上的箭矢</span></div>
+   <div class="scene"><div class="arrows">${items.map((x,i)=>`<div class="arrow-cell ${x.color}-arrow ${t.condition.endsWith("grouped")?(i%4===2||i%4===3?"cluster-right ":"")+(i>=8?"cluster-bottom":""):""}">${arrowSVG(x.color,x.up)}</div>`).join("")}</div></div>
+   <div class="response-row"><button class="keybtn" data-answer="present"><strong>F</strong>有目标</button><button class="keybtn" data-answer="absent"><strong>J</strong>无目标</button></div>`;
+ }else{
+  content=`<div class="trial-prompt">估计材料 B 相当于材料 A 的百分比</div>
+   <div class="scene">${potionSVG(t)}</div>
+   <div class="sliderrow"><span class="muted">0%</span><input id="estimate" type="range" min="0" max="100" step="1" value="50"><span class="muted">100%</span><span class="slider-num" id="estimateNum">50%</span></div>
+   <div class="choice-note">拖动滑块调整估计值，点击确认提交。</div>
+   <div class="response-row"><button class="btn" id="submitEstimate">确认估计</button></div>`;
+ }
+ app.innerHTML=`<div class="progress-wrap"><span>${practice?"练习":"正式实验"} · ${expLabel()}</span><span>${idx+1}/${total}</span></div><div class="progress"><i style="width:${(idx+1)/total*100}%"></i></div>${content}<div class="feedback" id="feedback"></div>`;
+ if(arrows){
+  app.querySelectorAll("[data-answer]").forEach(b=>b.onclick=()=>respondArrow(b.dataset.answer));
+  const key=e=>{if(e.key.toLowerCase()==="f")respondArrow("present");if(e.key.toLowerCase()==="j")respondArrow("absent")};
+  document.addEventListener("keydown",key,{once:false});state.keyHandler=key;
+ }else{
+  const sl=document.getElementById("estimate"),num=document.getElementById("estimateNum");
+  sl.oninput=()=>num.textContent=sl.value+"%";
+  document.getElementById("submitEstimate").onclick=()=>respondPotion(Number(sl.value));
+ }
+}
+function removeKey(){if(state.keyHandler){document.removeEventListener("keydown",state.keyHandler);state.keyHandler=null}}
+function nextTrial(){
+ if(state.phase==="practice"){state.practiceIndex++;if(state.practiceIndex>=6){state.phase="practiceDone";renderPracticeDone()}else renderTrial()}
+ else{state.trialIndex++;if(state.trialIndex>=40)finishExperiment();else renderTrial()}
+}
+function respondArrow(answer){
+ if(state.lastResponse)return;state.lastResponse=true;removeKey();
+ const rt=Math.round(performance.now()-state.expStartedAt),correct=(answer==="present")===state.current.present;
+ const rec={trial:state.current.id,condition:state.current.condition,target_present:state.current.present,response:answer,correct,rt_ms:rt,set_size:16};
+ if(state.phase==="practice"){
+  const f=document.getElementById("feedback");
+  const answerText=state.current.present
+    ? `正确答案：有目标。金色且朝上的箭矢位于第 ${state.current.targetIndex+1} 个位置（从左到右、从上到下）。`
+    : "正确答案：无目标。画面中没有金色且朝上的箭矢。";
+  f.innerHTML=`<div class="practice-feedback"><strong>${correct?"✓ 回答正确":"✕ 回答错误"}</strong><div class="answer">${answerText}</div><button class="btn secondary" id="practiceNext">下一题</button></div>`;
+  document.getElementById("practiceNext").onclick=()=>{state.lastResponse=false;nextTrial()};
+ }else{
+  state.formalTrials.push(rec);state.lastResponse=false;nextTrial();
+ }
+}
+function respondPotion(value){
+ if(state.lastResponse)return;state.lastResponse=true;
+ const rt=Math.round(performance.now()-state.expStartedAt),err=Math.abs(value-state.current.ratio);
+ const rec={trial:state.current.id,condition:state.current.condition,true_ratio_pct:state.current.ratio,estimate_pct:value,absolute_error_pp:Number(err.toFixed(1)),signed_error_pp:Number((value-state.current.ratio).toFixed(1)),rt_ms:rt};
+ if(state.phase==="practice"){
+  document.getElementById("feedback").innerHTML=`<div class="practice-feedback"><strong>本题正确数值：${state.current.ratio}%</strong><div class="answer">你的估计：${value}% · 绝对误差：${err} 个百分点</div><button class="btn secondary" id="practiceNext">下一题</button></div>`;
+  document.getElementById("practiceNext").onclick=()=>{state.lastResponse=false;nextTrial()};
+ }else{state.formalTrials.push(rec);state.lastResponse=false;nextTrial()}
+}
+function renderPracticeDone(){
+ app.innerHTML=`<div class="eyebrow">PRACTICE COMPLETE</div><h2>练习完成</h2><p>你已经熟悉本关操作。正式实验开始后，系统不会显示每题的正确答案或对错反馈，请尽可能准确、自然地完成判断。</p><div class="row"><button class="btn" id="formal">开始正式实验</button></div>`;
+ document.getElementById("formal").onclick=()=>{
+  state.formalTrials=[];state.trialIndex=0;
+  state.trialPlan=expName()==="arrows"?makeArrowTrials(false):makePotionTrials(false);
+  state.formalTrials=[];state.phase="formal";renderTrial();
+ };
+}
+function finishExperiment(){
+ removeKey();
+ const name=expName(),data=state.formalTrials.slice();
+ state.results[name]=data;
+ state.allLocal.push(...data.map(x=>({...x,participant:state.participant,experiment:name})));
+ if(state.expIndex===0){state.expIndex=1;state.phase="introExp";renderExperimentIntro()}
+ else{state.phase="complete";renderFinal()}
+}
+function mean(a){return a.length?a.reduce((s,x)=>s+x,0)/a.length:NaN}
+function sd(a){if(a.length<2)return NaN;const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1))}
+function arrowSummary(rows){
+ const cs=["feature_random","feature_grouped","conjunction_random","conjunction_grouped"];
+ return cs.map(c=>{const a=rows.filter(x=>x.condition===c),ok=a.filter(x=>x.correct),rts=ok.filter(x=>x.rt_ms>=200&&x.rt_ms<=3000).map(x=>x.rt_ms);return {condition:c,n:a.length,accuracy:mean(a.map(x=>x.correct?1:0)),meanRT:mean(rts),validRTn:rts.length}});
+}
+function potionSummary(rows){
+ const cs=["length_plain","length_guides","angle_plain","angle_guides"];
+ return cs.map(c=>{const a=rows.filter(x=>x.condition===c);return {condition:c,n:a.length,meanError:mean(a.map(x=>x.absolute_error_pp)),meanRT:mean(a.map(x=>x.rt_ms)),meanSigned:mean(a.map(x=>x.signed_error_pp))}});
+}
+function fmt(x,d=1){return Number.isFinite(x)?x.toFixed(d):"—"}
+function renderFinal(){
+ const a=arrowSummary(state.results.arrows||[]),p=potionSummary(state.results.potion||[]);
+ const ar=a.map(x=>`<tr><td>${x.condition}</td><td>${x.n}</td><td>${fmt(x.accuracy*100)}%</td><td>${fmt(x.meanRT,0)} ms</td></tr>`).join("");
+ const pr=p.map(x=>`<tr><td>${x.condition}</td><td>${x.n}</td><td>${fmt(x.meanError)}</td><td>${fmt(x.meanRT,0)} ms</td></tr>`).join("");
+ app.innerHTML=`<div class="eyebrow">THE END OF THE TRIAL</div><h2>禁书馆试炼完成</h2><p>感谢你完成禁书馆的两项试炼！下面是你的个人表现。</p>
+ <div class="grid2"><div class="metric"><span class="small">第一关有效记录</span><b>${state.results.arrows.length}/40</b></div><div class="metric"><span class="small">第二关有效记录</span><b>${state.results.potion.length}/40</b></div></div>
+ <h3 style="margin-top:24px">你的第一关成绩｜失落的符文</h3><div style="overflow-x:auto"><table class="table"><thead><tr><th>条件</th><th>试次数</th><th>正确率</th><th>平均反应时间</th></tr></thead><tbody>${ar}</tbody></table></div>
+ <h3 style="margin-top:24px">你的第二关成绩｜魔药配方的秘密</h3><div style="overflow-x:auto"><table class="table"><thead><tr><th>条件</th><th>试次数</th><th>平均估计误差（百分点）</th><th>反应时均值</th></tr></thead><tbody>${pr}</tbody></table></div>
+ <div class="note" style="margin-top:18px">提示：第一关正确率越高、反应越快，表示本次表现越好；第二关的平均误差越小，表示估计越接近实际比例。</div>
+ <div class="rule"></div><h3>实验记录</h3><p class="small">实验数据正在安全提交，请不要关闭页面。若自动提交失败，可以下载记录文件并联系实验组织者。</p>
+ <div class="panel" style="margin:14px 0"><div id="uploadStatus" class="feedback" style="text-align:left">正在连接实验数据平台……</div><button class="btn secondary hidden" id="retryUpload">重新提交未成功的数据</button></div>
+ <div class="row" style="margin-top:16px"><button class="btn" id="csv">下载CSV备份</button><button class="btn secondary" id="json">下载JSON备份</button></div>`;
+ document.getElementById("csv").onclick=downloadCSV;
+ document.getElementById("json").onclick=downloadJSON;
+ document.getElementById("retryUpload").onclick=uploadData;
+ uploadData();
+}
+
+
+let uploadState = { arrows:false, potion:false, busy:false };
+async function uploadData(){
+ const status=document.getElementById("uploadStatus");
+ const retry=document.getElementById("retryUpload");
+ if(!status || uploadState.busy) return;
+ if(!PROJECT){
+  status.textContent="数据平台项目尚未配置。请联系实验组织者。";
+  retry.classList.remove("hidden");
+  return;
+ }
+ uploadState.busy=true;
+ retry.classList.add("hidden");
+ status.textContent="正在提交实验数据，请不要关闭页面……";
+ try{
+  const jobs=[
+   {key:"arrows",experiment:"forbidden_book_arrows"},
+   {key:"potion",experiment:"forbidden_book_potion"}
+  ];
+  for(const job of jobs){
+   if(uploadState[job.key]) continue;
+   const trials=state.results[job.key]||[];
+   if(trials.length!==40) throw new Error((job.key==="arrows"?"第一关":"第二关")+"记录数量不是40，暂不上传。");
+   const payload={
+    project:PROJECT,
+    experiment:job.experiment,
+    participant:state.participant,
+    condition:"",
+    trials:trials
+   };
+   const res=await fetch(API,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload)
+   });
+   let result={};
+   try{result=await res.json()}catch(e){}
+   if(!res.ok || result.ok===false) throw new Error(result.msg||result.error||("服务器返回 HTTP "+res.status));
+   uploadState[job.key]=true;
+  }
+  status.textContent="✓ 两项实验的数据均已提交。请实验组织者登录收数平台核对记录。";
+  status.style.color="var(--teal)";
+ }catch(err){
+  status.textContent="提交未能全部完成："+err.message+"。可以点击下方按钮重试，或先下载CSV/JSON备份。";
+  status.style.color="var(--red)";
+  retry.classList.remove("hidden");
+ }finally{
+  uploadState.busy=false;
+ }
+}
+
+function download(name,content,type){
+ const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+function downloadCSV(){
+ const rows=state.allLocal;if(!rows.length)return;
+ const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];const csv=[keys.join(","),...rows.map(r=>keys.map(k=>JSON.stringify(r[k]??"")).join(","))].join("\r\n");
+ download("thirteenth_forbidden_book_"+state.participant+".csv","\ufeff"+csv,"text/csv;charset=utf-8");
+}
+function downloadJSON(){
+ const payload={project:state.project||null,participant:state.participant,consent:true,completed_at:new Date().toISOString(),experiments:state.results};
+ download("thirteenth_forbidden_book_"+state.participant+".json",JSON.stringify(payload,null,2),"application/json");
+}
+
+renderIntro();
+</script>
+</body>
+</html>
